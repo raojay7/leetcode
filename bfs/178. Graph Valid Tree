@@ -1,0 +1,41 @@
+public class Solution {
+    public boolean  validTree(int n,int[][] edges){
+        if(n==0)return false;
+        if (n-1!=edges.length)return false;
+        //构造图
+        Map<Integer, Set<Integer>> graph = initGraph(n, edges);
+        //利用一个hashset去重
+        //bfs
+        Set<Integer> hashSet=new HashSet<>();
+        Queue<Integer> queue=new LinkedList<>();
+        queue.add(0);
+        hashSet.add(0);
+        while(!queue.isEmpty()){
+            Integer node=queue.poll();
+            for (Integer neig:graph.get(node)) {
+                if(hashSet.contains(neig))continue;
+                hashSet.add(neig);
+                queue.offer(neig);
+            }
+        }
+
+        return n==hashSet.size();
+    }
+
+    Map<Integer, Set<Integer>> initGraph(int n, int[][] edges){
+        Map<Integer,Set<Integer>> graph=new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            graph.put(i,new HashSet<>());
+        }
+        //加入边
+        for (int i = 0; i < edges.length; i++) {
+            int u=edges[i][0];
+            int v=edges[i][1];
+
+            //把对应的点加入进去
+            graph.get(u).add(v);
+            graph.get(v).add(u);
+        }
+        return graph;
+    }
+}
