@@ -1,0 +1,61 @@
+import java.util.LinkedList;
+import java.util.Queue;
+
+class Solution {
+    class Pair{
+        int first,second;
+        public Pair(int x,int y){
+            first=x;
+            second=y;
+        }
+    }
+    public int numIslands(char[][] grid) {
+        if (grid.length==0)return 0;
+
+        //使用bfs暴力搜索
+        int ylen=grid.length;
+        int xlen=grid[0].length;
+        int[][] marked=new int[ylen][xlen];
+
+        //建立访问矩阵，对每个搜过的加一个count
+        int cnt=0;
+        for (int i=0;i<ylen;i++){
+            for (int j = 0; j < xlen; j++) {
+                //如果没被访问过，而且是岛屿的话，进行搜索
+                if(marked[i][j]==0&&grid[i][j]=='1') {
+                    bfs(marked,grid,i,j);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+
+    private void bfs(int[][] marked,char[][] grid,int x,int y) {
+        //方向数组左右上下
+        int dx[]={-1,1,0,0};
+        int dy[]={0,0,1,-1};
+        Queue<Pair> queue=new LinkedList<>();
+        queue.offer(new Pair(x,y));
+        marked[x][y]=1;
+        while(!queue.isEmpty()){
+            Pair head=queue.poll();
+            //向四个方向搜索
+            x=head.first;
+            y=head.second;
+            for (int i=0;i<4;i++){
+                int newx=x+dx[i];
+                int newy=y+dy[i];
+                if (newx<0||newx>grid.length-1||newy<0||newy>grid[0].length-1)continue;
+                if(marked[newx][newy]==0&&grid[newx][newy]=='1')
+                    //加入
+                    queue.offer(new Pair(newx,newy));
+                    marked[newx][newy]=1;
+            }
+        }
+    }
+
+    
+
+
+}
