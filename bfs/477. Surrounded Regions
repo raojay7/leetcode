@@ -56,6 +56,7 @@ public class Solution {
 
         while(!queue.isEmpty()){
             Pair pair = queue.poll();
+            if(board[pair.x][pair.y]=='P')continue;
             board[pair.x][pair.y]='P';
             for (int i = 0; i < 4; i++) {
                 int newx=pair.x+dx[i];
