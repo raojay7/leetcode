@@ -14,7 +14,6 @@ struct TreeNode {
     TreeNode *right;
     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
 };
-
 /**
  判断一棵二叉树是否为平衡二叉树
  设当前结点为root，设两个变量l和r分别表示
