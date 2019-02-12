@@ -3,10 +3,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Solution {
-    /*
-     * @param nums: A list of integers.
-     * @return: A list of permutations.
-     */
     public List<List<Integer>> permute(int[] nums) {
         //只有当size为nums.length时才加入
         List<List<Integer>> res=new ArrayList<>();
