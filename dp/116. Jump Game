@@ -1,0 +1,25 @@
+public class Solution {
+    /**
+     * @param A: A list of integers
+     * @return: A boolean
+     */
+    public boolean canJump(int[] A) {
+        // write your code here
+        if(A==null||A.length==0)return false;
+        int n=A.length;
+        int i,j;
+        boolean[] dp=new boolean[n];
+        dp[0]=true;//init
+        for(j=1;j<n;j++){
+            //previous stone
+            dp[j]=false;//set false first
+            for(i=0;i<j;i++){
+                if(dp[i]&&A[i]+i>=j){
+                    dp[j]=true;
+                    break;
+                }
+            }
+        }
+        return dp[n-1];
+    }
+}
