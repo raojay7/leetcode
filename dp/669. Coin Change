@@ -1,0 +1,25 @@
+public class Solution {
+    /**
+     * @param coins: a list of integer
+     * @param amount: a total amount of money amount
+     * @return: the fewest number of coins that you need to make up
+     */
+    public int coinChange(int[] coins, int amount) {
+        // write your code here
+        int n=coins.length;
+        int[] dp=new int[amount+1];
+        int i,j;
+        dp[0]=0;//初始化
+        for(i=1;i<=amount;++i){
+            dp[i]=Integer.MAX_VALUE;
+            for(j=0;j<n;++j){
+                if(i>=coins[j]&&dp[i-coins[j]]!=Integer.MAX_VALUE&&
+                        (dp[i-coins[j]]+1)<dp[i])
+                //更新
+                dp[i]=dp[i-coins[j]]+1;
+            }
+        }
+        if(dp[amount]==Integer.MAX_VALUE)return -1;
+        else return dp[amount];
+    }
+}
