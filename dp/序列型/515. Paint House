@@ -1,6 +1,6 @@
 public class Solution {
     /**
-    序列型动态规划
+    带状态的序列型动态规划，把状态记录下来
      * @param costs: n x 3 cost matrix
      * @return: An integer, the minimum cost to paint all houses
      */
