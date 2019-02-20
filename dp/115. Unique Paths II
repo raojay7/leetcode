@@ -1,5 +1,6 @@
 public class Solution {
     /**
+    坐标型动态规划
      * @param obstacleGrid: A list of lists of integers
      * @return: An integer
      */
