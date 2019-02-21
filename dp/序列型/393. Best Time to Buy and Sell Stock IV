@@ -1,0 +1,57 @@
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int K,int[] A) {
+        // write your code here
+        int n=A.length;
+        if (n==0)return 0;
+        if(K>n/2){
+            //变成任意次买就是二的情况
+            int res=0;
+            for(int i=0;i<n-1;++i){
+                if(A[i]<A[i+1]){
+                    res+=A[i+1]-A[i];
+                }
+            }
+            return res;
+        }
+        int[][] f=new int[n+1][2*K+1+1];
+        int i,j,k;
+        //init
+        //前0天阶段1最大获利是0
+        f[0][1]=0;
+        for(i=2;i<=2*K+1;i++){
+            f[0][i]=Integer.MIN_VALUE;
+        }
+        for (i=1;i<=n ;++i ) {
+            //1,3,5...2k+1
+            for(j=1;j<=2*K+1;j+=2){
+                f[i][j]=f[i-1][j];
+                //max{f[i-1][j],f[i-1][j-1]+p[i-1]-p[i-2]}
+                //防止负数最小值再加一个负数越界
+                if(i>1&&j>1&&f[i-1][j-1]!=Integer.MIN_VALUE){
+                    f[i][j]=Math.max(f[i][j],f[i-1][j-1]+A[i-1]-A[i-2]);
+                }
+            }
+            //2,4...2k+1
+            for(j=2;j<=2*K+1;j+=2){
+                f[i][j]=f[i-1][j-1];//刚买
+                //max{f[i-1][j-1],f[i-1][j-2]+p[i-1]-p[i-2],f[i-1][j]+p[i-1]-p[i-2]}
+                //刚买，卖了又买，继续持有
+                if(i>1&&f[i-1][j]!=Integer.MIN_VALUE){
+                    f[i][j]=Math.max(f[i][j],f[i-1][j]+A[i-1]-A[i-2]);
+                }
+                if(i>1&&j>2&&f[i-1][j-1]!=Integer.MIN_VALUE){
+                    f[i][j]=Math.max(f[i][j],f[i-1][j-2]+A[i-1]-A[i-2]);
+                }
+            }
+        }
+        int res=Integer.MIN_VALUE;
+        for(i=1;i<=2*K+1;i+=2){
+            res=Math.max(res,f[n][i]);
+        }
+        return res;
+    }
+}
