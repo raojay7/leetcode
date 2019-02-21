@@ -1,0 +1,17 @@
+public class Solution {
+    /**
+     * @param prices: Given an integer array
+     * @return: Maximum profit
+     */
+    public int maxProfit(int[] prices) {
+        // write your code here
+        int res=0;
+        int n=prices.length;
+        int buy=Integer.MAX_VALUE;
+        for (int price:prices){
+            buy=Math.min(price,buy);//实时记录最低的价格
+            res=Math.max(res,price-buy);//记录最大的差价
+        }
+        return res;
+    }
+}
