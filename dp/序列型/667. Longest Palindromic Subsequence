@@ -1,0 +1,45 @@
+public class Solution {
+    int [][] f=null;
+    char[] s=null;
+    //记忆化方法
+    void compute(int i,int j){
+        //算过了就不算了
+        if (f[i][j]!=-1)return;
+        //子序列长度为1
+        if (i==j){
+            f[i][j]=1;
+            return;
+        }
+        //子序列长度为2
+        if (i+1==j){
+            f[i][j]=s[i]==s[j]?2:1;
+            return;
+        }
+        compute(i+1,j);
+        compute(i,j-1);
+        compute(i+1,j-1);
+        f[i][j]=Math.max(f[i+1][j],f[i][j-1]);
+        if (s[i]==s[j]){
+            f[i][j]=Math.max(f[i+1][j-1]+2,f[i][j]);
+        }
+    }
+    /**
+     * @param ss: the maximum length of s is 1000
+     * @return: the longest palindromic subsequence's length
+     */
+    public int longestPalindromeSubseq(String ss) {
+        // write your code here
+        s=ss.toCharArray();
+        int n=s.length;
+        if (n==0)return 0;
+        f=new int[n][n];
+        int i,j;
+        for (i=0;i<n;i++){
+            for (j=i;j<n;j++){
+                f[i][j]=-1;//还没算
+            }
+        }
+        compute(0,n-1);
+        return f[0][n-1];
+    }
+}
