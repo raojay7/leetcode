@@ -1,0 +1,35 @@
+public class Solution {
+    /**
+     * @param A: an array of integers
+     * @param k: An integer
+     * @return: an integer
+     */
+    public int copyBooks(int[] A, int k) {
+        // write your code here
+        int n=A.length;
+        if (n==0)return 0;
+        if (k>=n)k=n;
+        int[][] f=new int[k+1][n+1];
+        //f[k][i]=minj=0~i(max(f[k-1][j],A[j]~A[i-1]))
+        int i,j,m;
+        f[0][0]=0;
+        for(j=1;j<=n;j++){
+            f[0][j]=Integer.MAX_VALUE;
+        }
+        int sum=0;
+        for (m=1;m<=k;m++){
+            f[m][0]=0;//k个人0本书，0分钟
+            for (i=1;i<=n;i++){
+                f[m][i]=Integer.MAX_VALUE;
+                sum=0;
+                //这里倒着来，方便计算，先从最后一个在到最开头的一个，最后一个只要计算A[j-1]
+                //而第一个要计算A[0]~A[j-1]
+                for (j=i;j>=0;j--){
+                    f[m][i]=Math.min(f[m][i],Math.max(f[m-1][j],sum));
+                    if (j>0)sum+=A[j-1];
+                }
+            }
+        }
+        return f[k][n];
+    }
+}
