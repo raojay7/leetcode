@@ -1,0 +1,20 @@
+import java.util.List;
+
+class Solution {
+    //从height-2向上传递，dp[i][j]为当前行列的最小值
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int h = triangle.size();
+        int w = triangle.get(h - 1).size();
+        //使用滚动数组，只和当前和下面一个数组有关
+        int dp[] = new int[w];
+        for (int i = 0; i < w; i++) {
+            dp[i] = triangle.get(h - 1).get(i);
+        }
+        for (int i = h - 2; i >= 0; i--) {
+            for (int j = 0; j < triangle.get(i).size(); j++) {
+                dp[j]=Math.min(dp[j],dp[j+1])+triangle.get(i).get(j);
+            }
+        }
+        return dp[0];
+    }
+}
