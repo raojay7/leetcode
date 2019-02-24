@@ -1,0 +1,84 @@
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+class Solution {
+    class Pair{
+        int zerocnt,onecnt;
+        Pair(int zerocnt,int onecnt){
+            this.zerocnt=zerocnt;
+            this.onecnt=onecnt;
+        }
+
+        public String toString() {
+            return zerocnt+"--"+onecnt;
+        }
+    }
+    //背包，称重为m和n，优化为二维数组
+    public int findMaxForm(String[] strs, int m, int n) {
+        //m为0，n为1个数
+        if(strs==null||strs.length==0)return 0;
+        int len=strs.length;
+        List<Pair> nums=new ArrayList<>();
+        for (int i = 0; i < len; i++) {
+            String s=strs[i];
+            int zerocnt=0,onecnt=0;
+            for (int j = 0; j < s.length(); j++) {
+                if(s.charAt(j)=='0')zerocnt++;
+                else onecnt++;
+            }
+            nums.add(new Pair(zerocnt,onecnt));
+        }
+
+//        System.out.println(Arrays.toString(nums.toArray()));
+        int[][] f=new int[m+1][n+1];
+        //初始化
+        for (int i = 1; i <= len ; i++) {
+            for (int j = m; j >= 0; j--) {
+                for (int k = n; k >= 0 ; k--) {
+                    int zerocnt=nums.get(i-1).zerocnt;
+                    int onecnt=nums.get(i-1).onecnt;
+                    if(j>=zerocnt&&k>=onecnt){
+                        f[j][k]=Math.max(f[j][k],f[j-zerocnt][k-onecnt]+1);
+                    }
+                }
+            }
+        }
+        return f[m][n];
+    }
+
+    //背包，称重为m和n，三维数组
+//    public int findMaxForm(String[] strs, int m, int n) {
+//        //m为0，n为1个数
+//        if(strs==null||strs.length==0)return 0;
+//        int len=strs.length;
+//        List<Pair> nums=new ArrayList<>();
+//        for (int i = 0; i < len; i++) {
+//            String s=strs[i];
+//            int zerocnt=0,onecnt=0;
+//            for (int j = 0; j < s.length(); j++) {
+//                if(s.charAt(j)=='0')zerocnt++;
+//                else onecnt++;
+//            }
+//            nums.add(new Pair(zerocnt,onecnt));
+//        }
+//
+//        int[][][] f=new int[len+1][m+1][n+1];
+//        //初始化
+//        for (int i = 1; i <= len ; i++) {
+//            for (int j = 0; j <= m; j++) {
+//                for (int k = 0; k <= n ; k++) {
+//                    int zerocnt=nums.get(i-1).zerocnt;
+//                    int onecnt=nums.get(i-1).onecnt;
+//                    if(j>=zerocnt&&k>=onecnt){
+//                        f[i][j][k]=Math.max(f[i-1][j][k],f[i-1][j-zerocnt][k-onecnt]+1);
+//                    }else{
+//                        f[i][j][k]=f[i-1][j][k];
+//                    }
+//                }
+//            }
+//        }
+//        return f[len][m][n];
+//    }
+}
