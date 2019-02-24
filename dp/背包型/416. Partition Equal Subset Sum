@@ -1,0 +1,30 @@
+class Solution {
+    //背包，如果能够分成两半，那么sum一定是偶数，最后看能不能构成sum/2
+    public boolean canPartition(int[] nums) {
+        int sum=0;
+        int n=nums.length;
+        for (int i = 0; i < n; i++) {
+            sum+=nums[i];
+        }
+        if(sum%2!=0)return false;//奇数
+        sum/=2;
+        boolean[][] f=new boolean[n+1][sum+1];
+        //初始化,f[i][0]=true,f[0][i]=fasle
+        for (int i = 0; i <= n; i++) {
+            f[i][0]=true;
+        }
+        for (int i = 0; i <= sum ; i++) {
+            f[0][i]=false;
+        }
+        for (int i = 1; i <=n ; i++) {
+            for (int j = 1; j <=sum ; j++) {
+                if(j-nums[i-1]<0){
+                    f[i][j]=f[i-1][j];
+                }else{
+                    f[i][j]=f[i-1][j]||f[i-1][j-nums[i-1]];
+                }
+            }
+        }
+        return f[n][sum];
+    }
+}
