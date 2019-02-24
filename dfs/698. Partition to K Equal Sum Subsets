@@ -1,0 +1,29 @@
+import java.util.Arrays;
+
+class Solution {
+    //dfs判断是否符合
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        Arrays.sort(nums);
+        int sum=0;
+        int n=nums.length;
+        for (int i = 0; i < n ; i++) {
+            sum+=nums[i];
+        }
+        if(sum%k!=0)return false;
+        boolean[] visited=new boolean[n];
+        return dfs(nums,k,sum/k,0,0,visited);
+    }
+
+    boolean dfs(int[] nums,int k,int target,int start,int curnum,boolean[] visited){
+        if(k==1)return true;
+        if(curnum>target)return false;
+        if(curnum==target)return dfs(nums,k-1,target,0,0,visited);
+        for (int i = start; i < nums.length; i++) {
+            if(visited[i])continue;
+            visited[i]=true;
+            if(dfs(nums,k,target,start+1,nums[i]+curnum,visited))return true;
+            visited[i]=false;
+        }
+        return false;
+    }
+}
