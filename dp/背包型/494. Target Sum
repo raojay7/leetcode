@@ -22,6 +22,22 @@ class Solution {
 //        return f[sum+S];
 //    }
 
+    /*
+     举例说明: nums = {1,2,3,4,5}, target=3, 一种可行的方案是+1-2+3-4+5 = 3
+
+     该方案中数组元素可以分为两组，一组是数字符号为正(P={1,3,5})，另一组数字符号为负(N={2,4})
+
+     因此: sum(1,3,5) - sum(2,4) = target
+
+              sum(1,3,5) - sum(2,4) + sum(1,3,5) + sum(2,4) = target + sum(1,3,5) + sum(2,4)
+
+              2sum(1,3,5) = target + sum(1,3,5) + sum(2,4)
+
+              2sum(P) = target + sum(nums)
+
+              sum(P) = (target + sum(nums)) / 2
+
+    */
     //转化为0-1背包问题，s(p)=(s+sum)/2
     public int findTargetSumWays(int[] nums, int S) {
         int sum=0;
