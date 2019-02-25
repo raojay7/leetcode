@@ -1,24 +1,43 @@
 class Solution {
     //dp采用滚动数组，先判断最大的和sum是否小于S，如果是直接减枝return 0
     //滚动数组，g[i+num]+=f[i],g[i-num]+=f[i]，然后将f=g,i的范围是从num到i+num<max
+//    public int findTargetSumWays(int[] nums, int S) {
+//        int sum=0;
+//        for (int num:nums) {
+//            sum+=num;
+//        }
+//        if(sum<S)return 0;
+//        int max=sum*2+1;
+//        int f[]=new int[max];
+//        //初始化
+//        f[sum]=1;
+//        for(int num:nums){
+//            int g[]=new int[max];
+//            for (int i = num; i +num < max; i++) {
+//                g[i+num]+=f[i];
+//                g[i-num]+=f[i];
+//            }
+//            f=g;
+//        }
+//        return f[sum+S];
+//    }
+
+    //转化为0-1背包问题，s(p)=(s+sum)/2
     public int findTargetSumWays(int[] nums, int S) {
         int sum=0;
-        for (int num:nums) {
+        for (int num:nums){
             sum+=num;
         }
-        if(sum<S)return 0;
-        int max=sum*2+1;
-        int f[]=new int[max];
-        //初始化
-        f[sum]=1;
+        if(sum<S||(S+sum)%2!=0)return 0;
+        int target=(S+sum)/2;
+        int[] f=new int[target+1];
+        f[0]=1;
         for(int num:nums){
-            int g[]=new int[max];
-            for (int i = num; i +num < max; i++) {
-                g[i+num]+=f[i];
-                g[i-num]+=f[i];
+            for(int j=target;j>=num;j--){
+                f[j]+=f[j-num];
             }
-            f=g;
         }
-        return f[sum+S];
+
+        return f[target];
     }
 }
