@@ -1,4 +1,5 @@
 public class Solution {
+     /**
     int [][] f=null;
     char[] s=null;
     //记忆化方法
@@ -23,10 +24,10 @@ public class Solution {
             f[i][j]=Math.max(f[i+1][j-1]+2,f[i][j]);
         }
     }
-    /**
+   
      * @param ss: the maximum length of s is 1000
      * @return: the longest palindromic subsequence's length
-     */
+    
     public int longestPalindromeSubseq(String ss) {
         // write your code here
         s=ss.toCharArray();
@@ -41,5 +42,33 @@ public class Solution {
         }
         compute(0,n-1);
         return f[0][n-1];
+    }
+     */
+     
+    /**
+     对于任意字符串，如果头尾字符相同，那么字符串的最长子序列等于去掉首尾的字符串的最长子序列加上首尾；如果首尾字符不同，则最长子序列等于去掉头的字符串的最长子序列和去掉尾的字符串的最长子序列的较大者。
+
+     设dp[i][j]表示第i到第j个字符间的最长回文序列的长度（i<=j）
+
+     状态转移方程：
+     dp[i][j]=dp[i+1][j-1] + 2 if(str[i]==str[j])dp[i][j]=dp[i+1][j−1]+2if(str[i]==str[j])
+
+     dp[i][j]=max(dp[i+1][j],dp[i][j-1]) if(str[i]!=str[j])dp[i][j]=max(dp[i+1][j],dp[i][j−1])if(str[i]!=str[j])
+     */
+    public int longestPalindromeSubseq(String s) {
+        if(s==null||s.length()==0)return 0;
+        int len=s.length();
+        int f[][]=new int [len][len];
+        for(int i=len-1;i>=0;i--){
+            f[i][i]=1;
+            for(int j=i+1;j<len;j++){
+                if(s.charAt(i)==s.charAt(j)){
+                    f[i][j]=Math.max(f[i][j],f[i+1][j-1]+2);
+                }else{
+                    f[i][j]=Math.max(f[i+1][j],f[i][j-1]);
+                }
+            }
+        }
+        return f[0][len-1];
     }
 }
