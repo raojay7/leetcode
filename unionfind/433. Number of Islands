@@ -1,0 +1,84 @@
+import java.util.HashSet;
+import java.util.Set;
+
+class Solution {
+/*
+相邻方向的1视为一块，这题其实本质就是求子块的数量。
+
+并查集，如果一个点为“1”，那这个点和它左方上方为“1”的点属于一个联通块，并到一个集合就可以了。
+
+如果一个点为“0”，那么把它的父节点置为-1。
+
+最后统计出现的不为“-1”的不同数字的个数就可以了。
+*/
+    int[] father;
+
+    int find(int x) {
+        int a = x;
+        while (x != father[x]) {
+            x = father[x];
+        }
+        //路径压缩
+        // while (a != father[a]) {
+        //     int z = a;
+        //     a = father[a];
+        //     father[z] = x;
+        // }
+        return x;
+    }
+
+    void union(int x, int y) {
+        int fx = find(x);
+        int fy = find(y);
+        if (fx != fy) {
+            father[fx] = fy;
+        }
+    }
+
+    int[] dx = {1, -1, 0, 0};
+    int[] dy = {0, 0, 1, -1};
+
+    public int numIslands(boolean[][] grid) {
+        int n = grid.length;
+        if (n == 0) return 0;
+        int m = grid[0].length;
+        int cnt = n * m;
+        father = new int[cnt];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                father[i * m + j] = i * m + j;
+                if (!grid[i][j]){
+                    father[i * m + j] = -1;
+                    continue;
+                }
+                else{
+                    if(i != 0 && grid[i-1][j]){
+                        int y = (i - 1) * m + j;
+                        union(i * m + j,y);
+                    }
+                    if(j != 0 && grid[i][j-1]){
+                        int y = i * m + j -1;
+                        union(i * m + j,y);
+                    }
+
+                }
+            }
+        }//将所有岛屿连起来
+        int res = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int i = 0; i < cnt; i++) {
+            if(father[i]==-1)continue;
+            int y=find(i);
+            if(!set.contains(y)){
+                res++;
+                set.add(y);
+            }
+        }
+        return res;
+    }
+
+    boolean issafe(int x, int y, int n, int m) {
+        if (x < 0 || y < 0 || x >= n || y >= m) return false;
+        return true;
+    }
+}
