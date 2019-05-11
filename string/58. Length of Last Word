@@ -1,0 +1,26 @@
+
+c++实现
+/*
+  要去除最后的空白字符
+  然后从最后的字符开始往前遍历，直到遇到' '返回len-i
+ */
+
+
+int lengthOfLastWord(string s) {
+    if(s.empty())
+        return 0;
+    int i,len;
+    i=s.size()-1;
+    while(s[i]==' ')i--;
+    len=i;
+    while(i>=0&&s[i]!=' '){
+        i--;
+    }
+    return len-i;
+}
+
+java一行实现
+
+public int lengthOfLastWord(String s) {
+    return s.trim().length()-s.trim().lastIndexOf(" ")-1;
+}
