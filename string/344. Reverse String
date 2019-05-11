@@ -1,0 +1,12 @@
+/*
+ 直接从两头往中间走，同时交换两边的字符即可
+ swap函数来帮助我们翻转
+ */
+
+
+void reverseString(vector<char>& s) {
+    int l=0,r=s.size()-1;
+    while(l<r){
+        swap(s[l++],s[r--]);
+    }
+}
