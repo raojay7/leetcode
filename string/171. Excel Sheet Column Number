@@ -1,0 +1,14 @@
+/*
+水题，就是一个进制转换
+*/
+class Solution {
+public:
+    int titleToNumber(string s) {
+        int res=0;
+        reverse(s.begin(),s.end());
+        for (int i = 0; i < s.size(); ++i) {
+            res+=(s[i]-'A'+1)*pow(26,i);
+        }
+        return res;
+    }
+};
