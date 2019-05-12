@@ -1,0 +1,14 @@
+可以把元音字母都存在一个字符串里，然后每遇到一个字符，就到元音字符串里去找，如果存在就说明当前字符是元音字符，参见代码如下：
+class Solution {
+public:
+    string reverseVowels(string s) {
+        int l=0,r=s.size()-1;
+        string ss="aeiouAEIOU";
+        while(l<r){
+            if(ss.find(s[l]) ==string::npos)++l;
+            else if(ss.find(s[r])==string::npos)--r;
+            else swap(s[l++],s[r--]);
+        }
+        return s;
+    }
+};
