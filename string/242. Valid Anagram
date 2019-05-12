@@ -1,0 +1,23 @@
+import java.util.HashMap;
+
+class Solution {
+    /*
+    核心就是一个映射，可以建立两个map，也可以建立一个map在第二次遍历的时候相减判断是否小于0了（说明映射不对）
+    通过两次遍历就可以得到答案
+     */
+    public boolean isAnagram(String s, String t) {
+        if(s.length()!=t.length())return false;
+        int m1[]=new int[26];
+        int m2[]=new int[26];
+        char[] c1 = s.toCharArray();
+        char[] c2 = t.toCharArray();
+        for (int i = 0; i < s.length(); i++) {
+            m1[c1[i]-'a']++;
+            m2[c2[i]-'a']++;
+        }
+        for (int i = 0; i < 26; i++) {
+            if (m1[i]!=m2[i])return false;
+        }
+        return true;
+    }
+}
