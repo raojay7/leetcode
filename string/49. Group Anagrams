@@ -1,0 +1,21 @@
+/*
+ 把同构的字符串分成一组，同构的字符串只要排序后就是一样的
+ 那么我们可以建立一个map<string,vector<string>>把相同key的push
+ 最后只要遍历map，加入结果集就可以得到结果了
+ */
+class Solution {
+public:
+    vector<vector<string> > groupAnagrams(vector<string>& strs) {
+        vector<vector<string> > res;
+        unordered_map<string, vector<string> > m;
+        for(string str:strs){
+            string t=str;
+            sort(t.begin(),t.end());
+            m[t].push_back(str);
+        }
+        for(auto it:m){
+            res.push_back(it.second);
+        }
+        return res;
+    }
+};
