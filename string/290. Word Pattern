@@ -1,0 +1,28 @@
+import java.util.HashMap;
+
+class Solution {
+    /*
+    使用hashmap来完成，利用两个字符对应的位置是唯一的来映射，
+    每当碰到一个字符，把当前位置放进去，首先判断模式与匹配的长度是否相等，然后初始化map
+    当两个HashMap的映射值不相同时返回false，
+    否则我们同时建立单词和pattern字符和当前位置加1之间的映射
+     */
+    public boolean wordPattern(String pattern, String str) {
+        HashMap<Character,Integer> h1=new HashMap<>();
+        HashMap<String,Integer> h2=new HashMap<>();
+        char[] chs=pattern.toCharArray();
+        String[] s2 =str.split(" ");
+        int n=pattern.length();
+        if(s2.length!=n)return false;
+        for (int i = 0; i < n; i++) {
+            h1.put(chs[i],0);
+            h2.put(s2[i],0);
+        }
+        for (int i = 0; i < n; i++) {
+            if(!h1.get(chs[i]).equals(h2.get(s2[i])))return false;
+            h1.put(chs[i],i+1);
+            h2.put(s2[i],i+1);
+        }
+        return true;
+    }
+}
