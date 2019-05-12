@@ -1,0 +1,18 @@
+/*
+     求余数，注意要反着添加
+     这里有个坑的地方比如52
+     就是两个26，其实有简单的方法就是先把n自减然后再取余数
+     可以用递归和非递归实现
+     */
+    string convertToTitle(int n) {
+        string res;
+        while (n) {
+            res += --n % 26 + 'A';
+            n /= 26;
+        }
+        return string(res.rbegin(), res.rend());
+    }
+    
+    string convertToTitle(int n) {
+        return n == 0 ? "" : convertToTitle(n / 26) + (char)(--n % 26 + 'A');
+    }
