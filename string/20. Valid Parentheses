@@ -1,0 +1,38 @@
+/*
+使用栈,遍历输入字符串
+
+如果当前字符为左半边括号时，则将其压入栈中
+
+如果遇到右半边括号时，分类讨论：
+
+1）如栈不为空且为对应的左半边括号，则取出栈顶元素，继续循环
+
+2）若此时栈为空，则直接返回false
+
+3）若不为对应的左半边括号，反之返回false
+ */
+
+class Solution {
+public:
+    bool isValid(string s) {
+        if (s.empty())
+            return true;
+        stack<char> ss;
+        for (int i = 0; i < s.size(); ++i) {
+            if(s[i]=='('||s[i]=='['||s[i]=='{')ss.push(s[i]);
+            else if(ss.empty()){
+                return false;
+            }
+            else if((ss.top()=='('&&s[i]==')')||
+                    (ss.top()=='['&&s[i]==']')||
+                    (ss.top()=='{'&&s[i]=='}')
+            ){
+                ss.pop();
+            }else {
+                return false;
+            }
+        }
+        if(ss.empty())return true;
+        else return false;
+    }
+};
