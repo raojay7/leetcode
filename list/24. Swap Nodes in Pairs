@@ -1,0 +1,34 @@
+
+class ListNode {
+     int val;
+     ListNode next;
+     ListNode(int x) { val = x; }
+ }
+
+ /*
+ 建立一个头结点dummyHead，循环遍历结点p，然后遍历这个链表，
+ 构造n1,n2以及next
+ 每次都进行如下操作
+ 1.n2.next=n1;
+ 2.n1.next=next
+ 3.p.next=n2
+ 4.p=n1
+  */
+class Solution {
+    public ListNode swapPairs(ListNode head) {
+        ListNode dummyHead=new ListNode(0);
+        dummyHead.next=head;
+        ListNode p=dummyHead;
+        while(p.next!=null&&p.next.next!=null){
+            ListNode n1=p.next;
+            ListNode n2=n1.next;
+            ListNode next=n2.next;
+
+            n2.next=n1;
+            n1.next=next;
+            p.next=n2;
+            p=n1;
+        }
+        return dummyHead.next;
+    }
+}
