@@ -1,0 +1,23 @@
+class Solution {
+    /*
+    使用快慢指针来
+    一开始放在初始位置，判断两个指针位置的值
+    1.如果相同，快指针向前走一步
+    2.如果不同，快慢指针都向前走一步，并把当前快指针的值给慢指针的
+    3.当快指针走完数组的时候，慢指针的值加1就是返回的len
+     */
+    public int removeDuplicates(int[] nums) {
+        if(nums.length==0)return 0;
+        int pre=0,cur=0;
+        while (cur<nums.length){
+            if(nums[pre]==nums[cur]){
+                cur++;
+            }else{
+                pre++;
+                nums[pre]=nums[cur];
+                cur++;
+            }
+        }
+        return pre+1;
+    }
+}
