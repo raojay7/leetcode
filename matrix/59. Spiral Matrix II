@@ -1,0 +1,26 @@
+同54一样的思路
+
+vector<vector<int>> generateMatrix(int n) {
+        vector<vector<int>> res(n,vector<int>(n));
+        int cnt=1;
+        int up = 0, down = n - 1, left = 0, right = n - 1;
+        while (true) {
+            for (int j = left; j <= right; ++j) {
+                res[up][j]=cnt++;
+            }
+            if (++up > down)break;
+            for (int i = up; i <= down; ++i) {
+                res[i][right]=cnt++;
+            }
+            if (--right < left)break;
+            for (int j = right; j >= left; --j) {
+                res[down][j]=cnt++;
+            }
+            if (--down < up)break;
+            for (int i = down; i >= up; --i) {
+                res[i][left]=cnt++;
+            }
+            if (++left > right)break;
+        }
+        return res;
+    }
