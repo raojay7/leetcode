@@ -1,0 +1,18 @@
+class Solution {
+    /*
+    这道题只需要用两个指针从两边往中间遍历，选择左右中最高的那个往里面逼近
+     */
+    public int maxArea(int[] height) {
+        int i=0,j=height.length-1;
+        int res=-1;
+        while(i<j){
+            res=Math.max(res, Math.min(height[j],height[i])*(j-i));
+            if(height[i]<height[j]){
+                i++;
+            }else{
+                --j;
+            }
+        }
+        return res;
+    }
+}
