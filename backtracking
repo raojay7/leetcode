@@ -1,0 +1,24 @@
+
+//第一种方法，采用迭代
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        if(digits.isEmpty())return new ArrayList<>();
+        String[] dict={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        List<String> res=new ArrayList<>();
+        res.add("");
+        for (int i = 0; i < digits.length(); i++) {
+            List<String> t=new ArrayList<>();
+            String str=dict[digits.charAt(i)-'0'];
+            for (int j = 0; j < str.length(); j++) {
+                for(String s:res){
+                    t.add(s+str.charAt(j));
+                }
+            }
+            res=t;
+        }
+        return res;
+    }
+}
