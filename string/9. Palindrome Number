@@ -1,3 +1,4 @@
+//最方便的解法
 class Solution {
     public boolean isPalindrome(int x) {
         String s=String.valueOf(x);
@@ -11,3 +12,5 @@ class Solution {
         return true;
     }
 }
+
+//还有其他正常解法，待添加
