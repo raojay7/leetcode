@@ -41,3 +41,54 @@ public:
 
 
 //bfs的方法
+class Solution {
+public:
+
+    /*
+     是需要dp数组来减少重复运算。遍历数组中的每个数字，跟上面的解法一样，把每个遍历到的点都当作BFS遍历的起始点，
+     需要优化的是，如果当前点的dp值大于0了说明当前点已经计算过了，我们直接跳过。
+     否则就新建一个queue，然后把当前点的坐标加进去，
+     再用一个变量cnt，初始化为1，表示当前点为起点的递增长度，然后进入while循环，
+     然后cnt自增1，这里先自增1没有关系，因为只有当周围有合法的点时候才会用cnt来更新。
+     由于当前结点周围四个相邻点距当前点距离都一样，
+     所以采用类似二叉树层序遍历的方式，先出当前queue的长度，然后遍历跟长度相同的次数，
+     取出queue中的首元素，对周围四个点进行遍历，计算出相邻点的坐标后，
+     要进行合法性检查，横纵坐标不能越界，且相邻点的值要大于当前点的值，
+     并且相邻点点dp值要小于cnt，才有更新的必要。用cnt来更新dp[x][y]，
+     并用cnt来更新结果res，然后把相邻点排入queue中继续循环即可，参见代码如下：
+     */
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if(matrix.empty()||matrix[0].empty())
+            return 0;
+        int res=1;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        vector<vector<int>> dirs = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                if(dp[i][j]>0)continue;
+                queue<pair<int,int>> q({{i,j}});
+                int cnt=1;
+                while(!q.empty()){
+                    ++cnt;
+                    int len=q.size();
+                    for (int k = 0; k < len; ++k) {
+                        auto t=q.front();q.pop();
+                        for(auto dir:dirs){
+                            int x=t.first+dir[0];
+                            int y=t.second+dir[1];
+                            if(x<0||y<0||x>=m||y>=n||matrix[x][y]<=matrix[t.first][t.second]||cnt<=dp[x][y])continue;
+                            dp[x][y]=cnt;
+                            res=max(cnt,res);
+                            q.push({x,y});
+                        }
+                    }
+                }
+            }
+        }
+        return res;
+    }
+
+
+};
