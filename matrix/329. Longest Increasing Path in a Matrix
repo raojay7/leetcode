@@ -1,0 +1,43 @@
+//dfs的方法
+
+class Solution {
+public:
+
+    vector<vector<int>> dirs = {{0, -1}, {-1, 0}, {0, 1}, {1, 0}};
+    //dfs+记忆化dp，注意边界条件，初始化的时候都设置为为0
+    int longestIncreasingPath(vector<vector<int>>& matrix) {
+        if(matrix.empty()||matrix[0].empty())
+            return 0;
+        int res=1;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        for (int i = 0; i < m; ++i) {
+            for (int j = 0; j < n; ++j) {
+                res=max(res,dfs(matrix,dp,i,j));
+            }
+        }
+        return res;
+    }
+
+    int dfs(vector<vector<int>>& matrix,vector<vector<int>>& dp,int i,int j){
+        if(dp[i][j])return dp[i][j];
+        int mx=1;
+        int m=matrix.size();
+        int n=matrix[0].size();
+        for(auto a:dirs){
+            //向四个方向扩展
+            int x=i+a[0];
+            int y=j+a[1];
+            if(x<0||y<0||x>=m||y>=n||matrix[i][j]>=matrix[x][y])continue;
+            //满足条件更新
+            int len=1+dfs(matrix,dp,x,y);
+            mx=max(mx,len);
+        }
+        dp[i][j]=mx;
+        return mx;
+    }
+};
+
+
+//bfs的方法
