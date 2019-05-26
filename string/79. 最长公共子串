@@ -1,0 +1,32 @@
+可以考虑用记忆化搜索或者DP来求，采用子序列/子串中常用的状态定义
+以i,j结尾（如A[i-1],B[j-1]）且其字符相等的子串lcs，状态转移只需要
+判断两个字符串中最后一个字符是否相等，最后再两次遍历二维数组即可
+
+public class Solution {
+    /**
+     * @param A: A string
+     * @param B: A string
+     * @return: the length of the longest common substring.
+     */
+    public int longestCommonSubstring(String A, String B) {
+        // write your code here
+        if (A==null||B==null||A.isEmpty()|| B.isEmpty())return 0;
+        int lena=A.length();
+        int lenb= B.length();
+        int lsc=0;
+        int[][] dp=new int[lena+1][lenb+1];
+        for (int i = 0; i < lena; i++) {
+            for (int j = 0; j < lenb; j++) {
+                if(A.charAt(i)==B.charAt(j)){
+                    dp[i+1][j+1]=dp[i][j]+1;
+                }
+            }
+        }
+        for (int i = 1; i <= lena; i++) {
+            for (int j = 1; j <= lenb; j++) {
+                if(lsc<dp[i][j])lsc=dp[i][j];
+            }
+        }
+        return lsc;
+    }
+}
