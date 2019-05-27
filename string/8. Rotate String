@@ -1,0 +1,32 @@
+常见的翻转法应用题，仔细观察规律可知翻转的分割点在从数组末尾数起的offset位置。先翻转前半部分，随后翻转后半部分，最后整体翻转。
+
+public class Solution {
+    /*
+     * param A: A string
+     * param offset: Rotate string with offset.
+     * return: Rotated string.
+     */
+    public char[] rotateString(char[] A, int offset) {
+        if (A == null || A.length == 0) {
+            return A;
+        }
+
+        int len = A.length;
+        offset %= len;
+        reverse(A, 0, len - offset - 1);
+        reverse(A, len - offset, len - 1);
+        reverse(A, 0, len - 1);
+
+        return A;
+    }
+
+    private void reverse(char[] str, int start, int end) {
+        while (start < end) {
+            char temp = str[start];
+            str[start] = str[end];
+            str[end] = temp;
+            start++;
+            end--;
+        }
+    }
+};
