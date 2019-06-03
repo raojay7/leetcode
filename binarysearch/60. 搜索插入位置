@@ -1,0 +1,25 @@
+//upper_bound
+public class Solution {
+    /**
+     * @param A: an integer sorted array
+     * @param target: an integer to be inserted
+     * @return: An integer
+     */
+    public int searchInsert(int[] A, int target) {
+        int l=0,h=A.length;
+        int mid;
+        while(l<h){
+            mid=l+(h-l)/2;
+            if(A[mid]==target){
+                return mid;
+            }
+            else if(A[mid]>target){
+                h=mid;
+            }
+            else{
+                l=mid+1;
+            }
+        }
+        return l;
+    }
+}
