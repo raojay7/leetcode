@@ -1,0 +1,33 @@
+class Solution {
+    /*
+    采用递归来实现
+    分为以下的情况
+    - 如果p为空，s为空返回true，否则返回false
+    - 判断s串与p串为1的情况，这是递归的终止条件，直接根据题目的定义来匹配，如果
+    s[0]==p[0]||p[0]=='.'则返回true，否则返回false
+    - 开始2以上的情况，我们的目的就是讲多个转换为长度为2甚至为1的情况，那么递归是最简洁的
+    解决办法，只考虑串的前两个字符，关键点就在p[1]是否是*；
+    如果p[1]!='*'，做如下的事情：
+    先判断s串是否为空，为空直接返回false
+    之后递归的判断s与p的1之后元素是否匹配
+    如果p[1]=='*',做如下的事情：
+    若s不为空且首串匹配，递归调用s与p的2之后的匹配（用于判断*为0时候的情况），若成功匹配则返回true，
+    否则就是*代表了多次，将s取去掉首字符之后的，继续循环过程
+    - 如果循环结束，则代表s已经与p的前两个字符匹配完成，那么将p去掉前两个字符再次递归
+     */
+    public boolean isMatch(String s, String p) {
+        if(p.isEmpty())return s.isEmpty();
+        if (p.length()==1){
+            return (s.length()==1&&(s.charAt(0)==p.charAt(0)||p.charAt(0)=='.'));
+        }
+        if(p.charAt(1)!='*'){
+            if(s.isEmpty())return false;
+            return (s.charAt(0)==p.charAt(0)||p.charAt(0)=='.')&&isMatch(s.substring(1),p.substring(1));
+        }
+        while (!s.isEmpty()&&(s.charAt(0)==p.charAt(0)||p.charAt(0)=='.')){
+            if (isMatch(s,p.substring(2)))return true;
+            s=s.substring(1);
+        }
+        return isMatch(s,p.substring(2));
+    }
+}
