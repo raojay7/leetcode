@@ -1,0 +1,57 @@
+#include<bits/stdc++.h>
+#include <string.h>
+
+using namespace std;
+
+
+int main() {
+    return 0;
+}
+
+class Solution {
+public:
+    /*
+    这种解法只用到了一个栈，还需要一个整型变量min_val来记录当前最小值，初始化为整型最大值，
+     然后如果需要进栈的数字小于等于当前最小值min_val，
+     那么将min_val压入栈，并且将min_val更新为当前数字。
+     在出栈操作时，先将栈顶元素移出栈，再判断该元素是否和min_val相等，
+     相等的话我们将min_val更新为新栈顶元素，再将新栈顶元素移出栈即可
+     */
+    vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) {
+        vector<vector<string>> res;
+        unordered_set<string> dict(wordList.begin(), wordList.end());
+        vector<string> p{beginWord};
+        queue<vector<string>> paths;
+        paths.push(p);
+        int level = 1, minLevel = INT_MAX;
+        unordered_set<string> words;//记录当前path所使用的word，也即path中走过的word
+        while (!paths.empty()) {
+            auto t = paths.front(); paths.pop();
+            //更新当前的层次
+            if (t.size() > level) {
+                //去除已经用过的词，不让在用了
+                for (string w : words) dict.erase(w);
+                words.clear();
+                level = t.size();//更新层次
+                if (level > minLevel) break;//如果还没搜出一个完整的路径则不会停止，如果搜到了一条最短的路径，出现了更大的路径，则终止搜索了
+            }
+            //和之前bfs一样，用最后一个继续搜索26个字母方向
+            string last = t.back();
+            for (int i = 0; i < last.size(); ++i) {
+                string newLast = last;
+                for (char ch = 'a'; ch <= 'z'; ++ch) {
+                    newLast[i] = ch;
+                    if (!dict.count(newLast)) continue;
+                    words.insert(newLast);
+                    vector<string> nextPath = t;
+                    nextPath.push_back(newLast);
+                    if (newLast == endWord) {
+                        res.push_back(nextPath);
+                        minLevel = level;
+                    } else paths.push(nextPath);
+                }
+            }
+        }
+        return res;
+    }
+};
