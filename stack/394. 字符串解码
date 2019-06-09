@@ -1,0 +1,41 @@
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+
+class Solution {
+
+    /*
+    使用栈来解决，定义一个res记录重复的串
+    两个栈，一个栈记录当前的次数，一个记录要输出的字符串
+    然后遍历这个串s，如果碰上左括号或者字符加入第一个栈，如果碰上数子加入第二个栈，
+    如果碰上右括号，则开始pop直到碰上左括号，然后将此次字符串更新res，
+     */
+    public String decodeString(String s) {
+        char[] chars = s.toCharArray();
+        Deque<String> s1 = new LinkedList<>();
+        Deque<Integer> s2 = new LinkedList<>();
+        int cnt = 0;
+        String t="";
+        for (char ch : chars) {
+            if (Character.isAlphabetic(ch)) {
+                t+=ch;
+            } else if (ch=='[') {
+                s2.push(cnt);
+                cnt=0;
+                s1.push(t);
+                t="";
+            } else if (ch == ']') {
+                int times = s2.pop();
+                for (int i = 0; i < times; i++) {
+                    String ss=s1.pop();
+                    ss+=t;
+                    s1.push(ss);
+                }
+                t=s1.pop();
+            } else if (Character.isDigit(ch)) {
+                cnt = 10 * cnt + ch - '0';
+            }
+        }
+        return s1.isEmpty()?t:s1.pop();
+    }
+}
