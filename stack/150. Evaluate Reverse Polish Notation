@@ -1,0 +1,27 @@
+import java.util.Stack;
+
+class Solution {
+    public int evalRPN(String[] tokens) {
+        if (tokens==null||tokens.length==0)return 0;
+        Stack<Integer> ss=new Stack<>();
+        for (int i = 0; i < tokens.length; i++) {
+            if (tokens[i].isEmpty())continue;
+            if (tokens[i].equals("+")){
+                ss.push(ss.pop()+ss.pop());
+            }else if (tokens[i].equals("-")){
+                ss.push(-(ss.pop()-ss.pop()));
+            }else if (tokens[i].equals("*")){
+                ss.push(ss.pop()*ss.pop());
+            }else if(tokens[i].equals("/")){
+                int i1=ss.pop();
+                int i2=ss.pop();
+                ss.push(i2/i1);
+            }else{
+                ss.push(Integer.parseInt(tokens[i]));
+            }
+        }
+        int res=0;
+        if (!ss.isEmpty())res=ss.pop();
+        return res;
+    }
+}
