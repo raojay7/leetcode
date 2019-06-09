@@ -1,0 +1,19 @@
+import java.util.Deque;
+import java.util.LinkedList;
+
+class Solution {
+    public String simplifyPath(String path) {
+        //使用双端队列的栈，将path分开
+        String res="";
+        Deque<String> stack=new LinkedList<>();
+        for(String item:path.split("/")){
+            if(item.equals("..")){
+                if(!stack.isEmpty())stack.pop();
+            }else if(!item.isEmpty()&&!item.equals(".")){
+                stack.push(item);
+            }
+        }
+        for(String s:stack)res="/"+s+res;
+        return res.isEmpty()?"/":res;
+    }
+}
