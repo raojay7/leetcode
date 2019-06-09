@@ -1,0 +1,47 @@
+import java.util.*;
+
+class Solution {
+    /*
+    为了提到字典的查找效率，我们使用HashSet保存所有的单词。
+    既然是BFS，我们需要一个队列queue，把起始单词排入队列中，
+    开始队列的循环，取出队首词，然后对其每个位置上的字符，用26个字母进行替换，
+    由于BFS的遍历机制就是一层一层的扩大的，那么我们只要记住层数就行，
+    然后在while循环中使用一个小trick，加一个for循环，表示遍历完当前队列中的个数后，
+    层数就自增1，这样的话我们就省去了HashMap，而仅仅用一个变量res来记录层数即可
+    如果此时和结尾单词相同了，就可以返回res值加一。
+    如果替换词在字典中存在，并且不是当前的word
+    则将替换词排入队列中，把当前替换词从set中标记为访问过（删除）。如果循环完成则返回0
+
+
+     */
+    public int ladderLength(String beginWord, String endWord, List<String> wordList) {
+        Set<String> wordset=new HashSet<>(wordList);
+        Queue<String> queue=new LinkedList<>();
+        int res=0;
+        queue.offer(beginWord);
+        while(!queue.isEmpty()){
+            for (int i = queue.size(); i > 0; i--) {
+                String word = queue.poll();
+                if(word.equals(endWord))return res+1;
+                //26个方向
+                for (int j = 0; j < word.length(); j++) {
+                    String newword=word;
+                    char[] chars = newword.toCharArray();
+                    for (char ch = 'a'; ch <='z' ; ch++) {
+                        chars[j]=ch;
+                        newword=String.valueOf(chars);
+                        if(wordset.contains(newword)&&!newword.equals(word)){
+                            queue.offer(newword);
+                            wordset.remove(newword);
+                        }
+                    }
+                }
+
+            }
+            res++;
+        }
+        return 0;
+    }
+
+
+}
