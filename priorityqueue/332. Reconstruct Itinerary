@@ -1,0 +1,26 @@
+class Solution {
+public:
+    /*
+      使用自排序并且可以允许重复的mutiset以及map构造图，然后开始dfs
+     */
+    vector<string> findItinerary(vector<vector<string>>& tickets) {
+        vector<string> res;
+        unordered_map<string, multiset<string>> m;
+        for(auto a:tickets){
+            m[a[0]].insert(a[1]);
+        }
+        helper(m,"JFK",res);
+        reverse(res.begin(),res.end());
+        return res;
+    }
+
+    void helper(unordered_map<string, multiset<string>> &m,string s,vector<string> &res){
+        while (m[s].size()>0){
+            string t=*m[s].begin();
+            m[s].erase(m[s].begin());
+            helper(m,t,res);
+        }
+        res.push_back(s);
+    }
+
+};
