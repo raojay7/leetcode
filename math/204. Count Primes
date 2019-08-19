@@ -1,3 +1,10 @@
+
+In fact, we can mark off multiples of 5 starting at 5 × 5 = 25, 
+because 5 × 2 = 10 was already marked off by multiple of 2, 
+similarly 5 × 3 = 15 was already marked off by multiple of 3. 
+Therefore, if the current number is p, we can always mark off multiples of p starting at p2, 
+then in increments of p: p2 + p, p2 + 2p, ... Now what should be the terminating loop condition?
+
 public int countPrimes(int n) {
    boolean[] isPrime = new boolean[n];
    for (int i = 2; i < n; i++) {
