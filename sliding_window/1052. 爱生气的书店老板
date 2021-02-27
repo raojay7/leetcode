@@ -1,0 +1,30 @@
+class Solution {
+    public int maxSatisfied(int[] customers, int[] grumpy, int X) {
+        //贪心，让最多顾客的时候连续不生气，但是还要考虑如果这个顾客最多的时候本来就不生气怎么办
+        //最暴力的方法，直接线性扫过去，后面的更新只需要更改前面一个答案的值就行
+        //滑动窗口
+        int begin=0,end=customers.length-X;
+        int res=0,max=0;
+        //初始化
+        for(int i=0;i<customers.length;++i){
+            if(i<X){
+                res+=customers[i];
+            }
+            else{
+                if(grumpy[i]==0){
+                    res+=customers[i];
+                }
+            }
+        }
+        begin++;
+        max=res;
+        while(begin<=end){
+            if(grumpy[begin-1]==1)res-=customers[begin-1];
+            if(grumpy[begin+X-1]==1)res+=customers[begin+X-1];
+            begin++;
+            System.out.println(res);
+            if(max<res)max=res;
+        }
+        return max;
+    }
+}
