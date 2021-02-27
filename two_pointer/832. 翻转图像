@@ -1,0 +1,21 @@
+class Solution {
+    public int[][] flipAndInvertImage(int[][] A) {
+        //双指针，一遍遍历
+        //判断头尾是否相同，如果相同就直接抑或，不相同就直接不操作（等价于直接取反）]
+        for(int i=0;i<A.length;++i){
+            int begin=0,end=A[0].length-1;
+            while(begin<end){
+                if(A[i][begin]==A[i][end]){
+                    A[i][begin]^=1;
+                    A[i][end]^=1;
+                }
+                begin++;
+                end--;
+            }
+            if(begin==end){
+                A[i][begin]^=1;
+            }
+        }
+        return A;
+    }
+}
