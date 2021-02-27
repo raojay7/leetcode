@@ -1,0 +1,24 @@
+class Solution {
+    public List<Integer> findNumOfValidWords(String[] words, String[] puzzles) {
+        //实际上就是将一个word映射成一个26位的二进制表示，然后即是一个数字，输入到hashmap中，之后去遍历puzzles，把每个puzzle子set（但是要包含首字母，可以用dfs获取subset）通过题目的条件看有几个map中的数字是满足的
+        HashMap<Integer,Integer> map=new HashMap<>();
+        //首先得到每个word的编码
+        for(String word:words){
+            int key=0;
+            for(char ch:word.toCharArray())key|=1<<ch-'a';
+            map.put(key,map.getOrDefault(key,0)+1);
+        }
+        List<Integer> res=new ArrayList<>(puzzles.length);
+        for(String p:puzzles){
+            char[] puzzle=p.toCharArray();
+            res.add(dfs(puzzle,1,map,1<<puzzle[0]-'a'));
+        }
+        return res;
+    }
+    //得到subset的对应的编码
+    public int dfs(char[] puzzle,int index,HashMap<Integer,Integer> map,int key){
+        if(index==puzzle.length)return map.getOrDefault(key,0);
+        //除了首字符外，下一个字符不选还是选
+        return dfs(puzzle,index+1,map,key)+dfs(puzzle,index+1,map,key|1<<puzzle[index]-'a');
+    }
+}
