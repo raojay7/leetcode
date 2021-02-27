@@ -1,0 +1,29 @@
+//方法一：dfs
+class Solution {
+    public int longestSubstring(String s, int k) {
+        //每一位代表一个字母，如果为1，表示该字母不够k次，如果为0就表示已经出现了k次
+        //就是直接遍历，从当前字母遍历到尾部，看是否满足条件，然后返回最大的res
+        //注意下次遍历的开始是从上次遍历的最大值的尾部开始
+        //可以使用分治法，首先将每个字母计数
+        //就是将原始不满足条件的字母分割，转换为分割后的几个字串的longestSubstring
+        
+        if(s.length()<k)return 0;
+        int res=0;
+        HashMap<Character,Integer> counter=new HashMap<>();
+        for(char ch:s.toCharArray()){
+            counter.put(ch,counter.getOrDefault(ch,0)+1);
+        }
+        for(char c:counter.keySet()){
+            //说明不满足条件，分割
+            if(counter.get(c)<k){
+                for(String subs :s.split(String.valueOf(c))){
+                    res=Math.max(res,longestSubstring(subs,k));
+                }
+                return res;
+            }
+        }
+        return s.length();
+    }
+  
+}
+//方法二：滑动窗口，放在滑动窗口那一节里面
